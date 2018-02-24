@@ -5,10 +5,9 @@ class HomePage extends Component {
     return (
       <div>
       <h1>Crypto-Track</h1>
-      <h2>Cryptocurrency Portfolio and Tools</h2>
+      <h2>sed petacius jed leddul</h2>
       <p>
-        Crypto-Track offers a Portfolio for you to keep track of all 
-        your cryptocurrency holdings.
+        loren ipsum sadfdjksfalnf
 
       </p>
       </div>
