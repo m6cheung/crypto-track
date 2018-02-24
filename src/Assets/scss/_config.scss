@@ -1,0 +1,48 @@
+/* colors */
+
+$black: #010000;
+$white: #ffffff;
+$steelBlue: #4682B4;
+
+/* mixins */
+
+@mixin translateY($e) {
+  -webkit-transform: translateY($e);
+  -moz-transform: translateY($e);
+  transform: translateY($e);
+}
+
+@mixin transition($e) {
+  -webkit-transition: $e;
+  -moz-transition: $e;
+  transition: $e;
+}
+
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: $black;
+  font-style: normal;
+}
+
+a {
+  @include transition(.4s ease-in-out);
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: none;
+    color: $steelBlue;
+    @include transition(.4s ease-in-out);
+  }
+
+  &:focus {
+    text-decoration: none;
+  }
+
+}
+
+.container-fluid {
+  line-height: 24px;
+}
