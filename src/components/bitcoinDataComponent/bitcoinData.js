@@ -47,7 +47,3 @@ class BitcoinData extends Component {
 
 export default BitcoinData;
 
-
-//"BINANCE_SPOT_BTC_USDT"
-
-//SYMBOLS ARE "EXCHANGE_SPOT_TICKER_PAIR"
