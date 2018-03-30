@@ -19,7 +19,7 @@ class Header extends Component {
               <Link to="/portfolio">Portfolio</Link>
             </li>
              <li>
-              <Link to="/data">Coin Data</Link>
+              <Link to="/data">Alt-Coin Data</Link>
             </li>
             <li className="last-nav-item">
               <Link to="/compare">Compare</Link>

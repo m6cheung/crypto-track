@@ -49,8 +49,74 @@ header {
 
 
 .bitcoin-data {
-  h1 {
-    text-align: center;
-    color: orange;
+  margin-left: 5%;
+
+  #btc-title {
+    color: #FF9900;
+    font-size: 30px;
   }
+
+  .btc-ticker {
+    color: #FF9900
+  }
+
+  .coin-title {
+    display: inline;
+
+    &.current-date {
+      font-size: 25px;
+      margin-left: 4em;
+      font-style: italic;
+    }
+  }
+
+  .coin-stats {
+    p {
+      margin-top: -0.7em;
+    }
+
+    div {
+      .price-red {
+        color: red;
+      }
+
+      .price-green {
+        color: green;
+      }
+    }
+
+    .btc-info {
+      margin-top: -1em;
+      font-size: 11px;
+      font-style: italic;
+    }
+  }
+
+  hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 0.1em 0 1em 0;
+    padding: 0;
+    width: 80%;
 }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

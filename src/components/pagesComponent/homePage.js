@@ -18,14 +18,11 @@ class HomePage extends Component {
         <h2>Cryptocurrency Data and Tools</h2>
 
         <p>
-          Crypto-Track offers searching for all
-          your cryptocurrency information.
+          Crypto-Track offers information for all
+          your cryptocurrency needs.
         </p>
 
-        
-
         <BitcoinData />
-        
       </div>
     );
   }
