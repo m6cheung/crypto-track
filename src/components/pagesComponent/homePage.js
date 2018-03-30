@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import BitcoinData from '../bitcoinDataComponent/bitcoinData'
 
 class HomePage extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      daily: true,
+      monthly: false
+    }
+  }
 
   render() {
     return (
@@ -13,6 +21,8 @@ class HomePage extends Component {
           Crypto-Track offers searching for all
           your cryptocurrency information.
         </p>
+
+        
 
         <BitcoinData />
         
