@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import 'moment-timezone'
-import { convertToCurrency, get } from '../../Helpers'
+import { convertToCurrency } from '../../Helpers'
 
 class BitcoinData extends Component {
   constructor(props) {
@@ -11,9 +11,14 @@ class BitcoinData extends Component {
       loading: true,
       data: null,
       currentBtcData: {
+        intPrice: 0,
+        changePercent: 0,
+        percentageOfPrice: 0,
+        date: null,
         time: null,
         price: 0
-      }
+      },
+      janFirstPrice: 0
     }
   }
 
@@ -40,7 +45,14 @@ class BitcoinData extends Component {
   //     })
   // }
 
-  getCurrentPrice() {
+  getYTDInfo() {
+    axios.get("https://api.coindesk.com/v1/bpi/historical/close.json?start=2018-01-01&end=2018-01-01")
+      .then(response => {
+        console.log(response);
+      })
+  }
+
+  getCurrentInfo() {
     axios.get("https://api.coinmarketcap.com/v1/ticker/bitcoin/")
       .then((response) => {
         let res = response.data[0];
@@ -54,6 +66,7 @@ class BitcoinData extends Component {
     
         this.setState({
           currentBtcData: {
+            intPrice: res.price_usd,
             changePercent: dayChange,
             percentageOfPrice: diff,
             date: date,
@@ -62,30 +75,43 @@ class BitcoinData extends Component {
           }
         })
       })
+
+
+      axios.get("https://api.coindesk.com/v1/bpi/historical/close.json?start=2018-01-01&end=2018-01-01")
+      .then(response => {
+        //closing price of btc on Jan 1st, 2018
+        let res = response.data.bpi['2018-01-01']
+        this.setState({ janFirstPrice: res })
+      })
+
+  }
+
+  setSignAndColor(percentage) {
+    let sign, colorClass, iconClass;
+    if(percentage === 0) {
+      sign = ""; colorClass = ""; iconClass = "glyphicon glyphicon-transfer"
+    } else if(percentage > 0) {
+      sign = "+"; colorClass = "price-green"; iconClass = "glyphicon glyphicon-arrow-up";
+    } else {
+      sign = "-"; colorClass = "price-red"; iconClass = "glyphicon glyphicon-arrow-down";
+    }
+
+    return {
+      sign: sign,
+      colorClass: colorClass,
+      iconClass: iconClass
+    }
   }
 
   componentDidMount() {
-    this.getCurrentPrice();
+    this.getCurrentInfo();
+    this.getYTDInfo();
   }
 
   render() {
-    let sign;
-    let colorClass;
-    let iconClass;
-
-    if(this.state.currentBtcData.changePercent === 0) {
-      sign = "";
-      colorClass = "";
-      iconClass = ""
-    } else if(this.state.currentBtcData.changePercent > 0) {
-      sign = "+";
-      colorClass = "price-green";
-      iconClass = "glyphicon glyphicon-arrow-up";
-    } else {
-      sign = "-";
-      colorClass = "price-red";
-      iconClass = "glyphicon glyphicon-arrow-down";
-    }
+    let changeStatus = this.setSignAndColor(this.state.currentBtcData.changePercent);
+    let ytd = (((this.state.currentBtcData.intPrice - this.state.janFirstPrice) / this.state.janFirstPrice) * 100).toFixed(2);
+    let ytdChangeStatus = this.setSignAndColor(ytd);
 
     return (
       <div className='bitcoin-data'>
@@ -104,17 +130,17 @@ class BitcoinData extends Component {
           </div>
 
           <div className="col-6 col-sm-4">
-            <p className={colorClass}> 
-              <span style={{color:"red"}} className="glyphicon glyphicon-arrow-down"></span> 
-              {" " + sign + this.state.currentBtcData.percentageOfPrice + " "} 
+            <p className={changeStatus.colorClass}> 
+              <span className={changeStatus.iconClass + " " + changeStatus.colorClass}></span> 
+              {" " + changeStatus.sign + Math.abs(this.state.currentBtcData.percentageOfPrice) + " "} 
               <span style={{color: 'black'}}>/</span> 
-              {" " + this.state.currentBtcData.changePercent + "%"}
+              {" " + changeStatus.sign + Math.abs(this.state.currentBtcData.changePercent) + "%"}
             </p>
             <p className="btc-info">Today's Change</p>
           </div>
 
           <div className="col-6 col-sm-4">
-            <p>+52%</p>
+            <p className={ytdChangeStatus.colorClass}>{ytdChangeStatus.sign + Math.abs(ytd) + "%"}</p>
             <p className="btc-info">Year-To-Date</p>
           </div>
 
@@ -130,8 +156,3 @@ BitcoinData.defaultProps = {
 }
 
 export default BitcoinData;
-// <div id="coindesk">Powered by <a href="http://www.coindesk.com/price/">CoinDesk</a></div>
-
-
-
-
