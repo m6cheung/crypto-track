@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 class Header extends Component {
   render() {
@@ -19,7 +19,7 @@ class Header extends Component {
               <Link to="/portfolio">Portfolio</Link>
             </li>
              <li>
-              <Link to="/data">Alt-Coin Data</Link>
+              <Link to="/data">Coin Data</Link>
             </li>
             <li className="last-nav-item">
               <Link to="/compare">Compare</Link>
