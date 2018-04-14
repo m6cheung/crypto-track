@@ -25,7 +25,7 @@ class Toolbar extends Component {
 
           <li className='last-tab'> 
            <Link to={ `/currency/${this.state.coin.toLowerCase()}/news` }> News </Link> 
-          </li>
+          </li> 
         </ul>
       </div>
     )
