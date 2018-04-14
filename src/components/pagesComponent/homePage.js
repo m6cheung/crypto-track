@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import BitcoinData from '../bitcoinDataComponent/bitcoinData';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -25,7 +24,6 @@ class HomePage extends Component {
   }
 
   render() {
-    console.log(this.state.currencies)
     return (
       <div>
         <h2>Cryptocurrency Data and Tools</h2>
@@ -42,7 +40,15 @@ class HomePage extends Component {
             {this.state.currencies.map((coin, ind) => {
               return (
                 <li id={'coin-' + coin.id} key={ind}>
-                  <Link to={"/currency/" + coin.id}>{coin.id}</Link>
+                  <Link to={
+                      {
+                        pathname: "/currency/" + coin.id,
+                        info: coin
+                      }
+                    }
+                  >
+                    {coin.id}
+                  </Link>
                 </li>
               )
             })}

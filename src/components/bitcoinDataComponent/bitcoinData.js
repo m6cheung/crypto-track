@@ -26,7 +26,6 @@ class BitcoinData extends Component {
     axios.get("https://api.coinmarketcap.com/v1/ticker/bitcoin/")
       .then((response) => {
         let res = response.data[0];
-        console.log(res)
         let price = "$" + convertToCurrency(res.price_usd);
         let pdt = new Date(Number(res.last_updated * 1000));
         let pst = moment.tz(pdt, 'America/Los_Angeles').format('h:mm a');
@@ -45,8 +44,10 @@ class BitcoinData extends Component {
           }
         })
       })
+  }
 
-      axios.get("https://api.coindesk.com/v1/bpi/historical/close.json?start=2018-01-01&end=2018-01-01")
+  getFirstDayPrice() {
+    axios.get("https://api.coindesk.com/v1/bpi/historical/close.json?start=2018-01-01&end=2018-01-01")
       .then(response => {
         //closing price of btc on Jan 1st, 2018
         let res = response.data.bpi['2018-01-01']
@@ -72,7 +73,31 @@ class BitcoinData extends Component {
   }
 
   componentDidMount() {
-    this.getCurrentInfo();
+    this.getFirstDayPrice();
+    let res = this.props.location.info;
+
+    if(!res) {
+      this.getCurrentInfo();
+    } else {
+      let price = "$" + convertToCurrency(res.price_usd);
+      let pdt = new Date(Number(res.last_updated * 1000));
+      let pst = moment.tz(pdt, 'America/Los_Angeles').format('h:mm a');
+      let date = moment.tz(pdt, 'America/Los_Angeles').format('LL');
+      let dayChange = parseFloat(res.percent_change_24h);
+      let diff = ((Math.abs(dayChange) / 100) * convertToCurrency(res.price_usd)).toFixed(2);
+
+      this.setState({
+        currentBtcData: {
+          intPrice: res.price_usd,
+          changePercent: dayChange,
+          percentageOfPrice: diff,
+          date: date,
+          time: pst,
+          price: price,
+        }
+      })
+    }
+
   }
 
   render() {

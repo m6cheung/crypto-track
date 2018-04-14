@@ -29,7 +29,7 @@ class App extends Component {
           <Route exact path='/compare' component={ComparePage} />
           <Route exact path='/portfolio' component={PortfolioPage} />
           <Route exact path='/data' component={CoinDataPage} />
-          <Route path='/currency/bitcoin' component={BitcoinData} />
+          <Route exact path='/currency/bitcoin' component={BitcoinData} />
 
           <Footer />
         </div>

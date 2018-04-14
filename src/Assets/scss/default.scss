@@ -12,6 +12,10 @@ header {
     position: absolute;
     top: 50%; left: 15px;
     @include translateY(-50%);
+
+    a {
+      color: $white;
+    }
   }
 
   nav,

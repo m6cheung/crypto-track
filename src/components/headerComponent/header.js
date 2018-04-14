@@ -7,7 +7,7 @@ class Header extends Component {
     return (
       <header>
         <div className="logo">
-          Crypto-Track
+          <Link to="/">Crypto-Track</Link>
         </div>
 
         <nav>
