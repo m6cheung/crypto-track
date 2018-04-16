@@ -17,9 +17,10 @@ class BitcoinData extends Component {
         percentageOfPrice: 0,
         date: null,
         time: null,
-        price: 0
+        price: 0,
       },
-      janFirstPrice: 0
+      janFirstPrice: 0,
+      endingPath: null
     }
   }
 
@@ -73,10 +74,12 @@ class BitcoinData extends Component {
     }
   }
 
+  // getCurrentInfoOnRefresh() {} -- abstraction wip
+
   componentDidMount() {
     this.getFirstDayPrice();
     let res = this.props.location.info;
-
+    
     if(!res) {
       this.getCurrentInfo();
     } else {
@@ -98,7 +101,10 @@ class BitcoinData extends Component {
         }
       })
     }
+  }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return nextProps.location.endingPath != null? {endingPath: nextProps.location.endingPath} : {endingPath: ''};
   }
 
   render() {
@@ -140,7 +146,7 @@ class BitcoinData extends Component {
 
         <Toolbar coin={this.props.coin} />
 
-        <Line urlContainsChart={this.props.location.pathname.indexOf('charts')} />
+        {this.state.endingPath === 'charts'? <Line /> : <div></div>}
 
       </div>
     )

@@ -16,7 +16,14 @@ class Toolbar extends Component {
       <div className="row toolbar-container">
         <ul>
           <li className='first-tab'> 
-            <Link to={ `/currency/${this.state.coin.toLowerCase()}/charts` }> 30-Day Chart </Link> 
+            <Link 
+              to={{ 
+                pathname: `/currency/${this.state.coin.toLowerCase()}/charts`,
+                endingPath: "charts"
+              }}
+            > 
+              30-Day Chart 
+            </Link> 
           </li>
 
           <li> 
@@ -24,7 +31,7 @@ class Toolbar extends Component {
           </li>
 
           <li className='last-tab'> 
-           <Link to={ `/currency/${this.state.coin.toLowerCase()}/news` }> News </Link> 
+            <Link to={ `/currency/${this.state.coin.toLowerCase()}/news` }> News </Link> 
           </li> 
         </ul>
       </div>

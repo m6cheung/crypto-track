@@ -40,12 +40,10 @@ class HomePage extends Component {
             {this.state.currencies.map((coin, ind) => {
               return (
                 <li id={'coin-' + coin.id} key={ind}>
-                  <Link to={
-                      {
-                        pathname: "/currency/" + coin.id,
-                        info: coin
-                      }
-                    }
+                  <Link to={{
+                      pathname: "/currency/" + coin.id,
+                      info: coin
+                    }}
                   >
                     {coin.id}
                   </Link>

@@ -7,8 +7,7 @@ class Line extends Component {
 
     this.state = {
       lineData: this.props.lineData,
-      width: this.props.width,
-      urlContainsChart: this.props.urlContainsChart
+      width: this.props.width
     }
   }
 
@@ -53,17 +52,13 @@ class Line extends Component {
  
     var transform='translate(' + margin.left + ',' + margin.top + ')';
 
-    return(
+    return (
       <div>
-        {this.state.urlContainsChart?
-          <svg id={this.props.lineId} width={this.state.width} height={this.props.height}>
-            <g transform={transform}>
-              <path className="line shadow" d={line(data)} strokeLinecap="round" />
-            </g>
-          </svg>
-            :
-          <div></div>
-        }
+        <svg id={this.props.lineId} width={this.state.width} height={this.props.height}>
+          <g transform={transform}>
+            <path className="line shadow" d={line(data)} strokeLinecap="round" />
+          </g>
+        </svg>
       </div>
     );
   }
@@ -73,8 +68,7 @@ class Line extends Component {
 Line.defaultProps = {
   width: 600,
   height: 300,
-  lineId: 'v1_chart',
-  urlContainsChart: -1
+  lineId: 'v1_line'
 }
 
 export default Line;
