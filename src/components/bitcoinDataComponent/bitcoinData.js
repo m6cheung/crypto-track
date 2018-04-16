@@ -4,6 +4,7 @@ import moment from 'moment';
 import 'moment-timezone'
 import { convertToCurrency } from '../../Helpers'
 import Toolbar from '../toolbarComponent/toolbar'
+import Line from '../lineChartComponent/line'
 
 class BitcoinData extends Component {
   constructor(props) {
@@ -137,7 +138,9 @@ class BitcoinData extends Component {
 
         </div>
 
-        <Toolbar coin={this.props.coin} /> 
+        <Toolbar coin={this.props.coin} />
+
+        <Line urlContainsChart={this.props.location.pathname.indexOf('charts')} />
 
       </div>
     )

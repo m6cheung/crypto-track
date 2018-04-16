@@ -1,36 +1,80 @@
-// import React, { Componenet } from 'react';
-// import * as d3 from 'd3';
+import React, { Component } from 'react';
+import * as d3 from 'd3';
 
-// class Line extends React.Component {
-//     render() {
-//         var data = this.props.data;
-//         var margin = this.props.margin;
-//         var height = this.props.height - margin.top - margin.bottom;
-//         var width = this.props.width  - margin.left - margin.right;
+class Line extends Component {
+  constructor(props) {
+    super(props);
 
-//         var x = d3.time.scale()
-//         .range([0, width]);
+    this.state = {
+      lineData: this.props.lineData,
+      width: this.props.width,
+      urlContainsChart: this.props.urlContainsChart
+    }
+  }
 
-//         var y = d3.scale.linear()
-//         .range([height, 0]);
+  render() {
+    var data = [
+      {day:'02-11-2016',count:180},
+      {day:'02-12-2016',count:250},
+      {day:'02-13-2016',count:150},
+      {day:'02-14-2016',count:496},
+      {day:'02-15-2016',count:140},
+      {day:'02-16-2016',count:380},
+      {day:'02-17-2016',count:100},
+      {day:'02-18-2016',count:150}
+    ];
 
-//         var line = d3.svg.line()
-//         .x(function(d) { return x(d.date); })
-//         .y(function(d) { return y(d.close); });
+    var margin = {top: 5, right: 50, bottom: 20, left: 50},
+      w = this.state.width - (margin.left + margin.right),
+      h = this.props.height - (margin.top + margin.bottom);
+ 
+    var parseDate = d3.timeParse("%m-%d-%Y");
 
-//         data.forEach(function(d) {
-//             x.domain(d3.extent(data, function(d) { return d.date; }));
-//             y.domain(d3.extent(data, function(d) { return d.close; }));
-//         });
+    data.forEach((d) => {
+      d.date = parseDate(d.day);
+    });
 
-//         var newline = line(data);
-//         console.log(newline);
+    var x = d3.scaleTime()
+      .domain(d3.extent(data, (d) => {
+        return d.date;
+      }))
+      .rangeRound([0, w]);
+ 
+    var y = d3.scaleLinear()
+      .domain([0, d3.max(data, (d) => {
+        return d.count + 100;
+      })])
+      .range([h, 0]);
+ 
+    var line = d3.line()
+      .x(d => x(d.date))
+      .y(d => y(d.count))
+      .curve(d3.curveBasis);
+ 
+    var transform='translate(' + margin.left + ',' + margin.top + ')';
 
-//         return(
-//             <path className="line" d={newline}></path>
-//         );
-//     }
+    return(
+      <div>
+        {this.state.urlContainsChart?
+          <svg id={this.props.lineId} width={this.state.width} height={this.props.height}>
+            <g transform={transform}>
+              <path className="line shadow" d={line(data)} strokeLinecap="round" />
+            </g>
+          </svg>
+            :
+          <div></div>
+        }
+      </div>
+    );
+  }
 
-// }
+}
 
-// export default Line;
+Line.defaultProps = {
+  width: 600,
+  height: 300,
+  lineId: 'v1_chart',
+  urlContainsChart: -1
+}
+
+export default Line;
