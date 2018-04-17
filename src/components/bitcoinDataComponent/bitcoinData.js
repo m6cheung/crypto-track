@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import moment from 'moment';
-import 'moment-timezone'
-import { convertToCurrency } from '../../Helpers'
-import Toolbar from '../toolbarComponent/toolbar'
-import Line from '../lineChartComponent/line'
+import 'moment-timezone';
+import { convertToCurrency } from '../../Helpers';
+import Toolbar from '../toolbarComponent/toolbar';
+import Line from '../lineChartComponent/line';
+import { Link } from 'react-router-dom';
 
 class BitcoinData extends Component {
   constructor(props) {
@@ -79,7 +80,7 @@ class BitcoinData extends Component {
   componentDidMount() {
     this.getFirstDayPrice();
     let res = this.props.location.info;
-    
+
     let ending = this.props.location.pathname.split('/').reverse()[0];
     this.setState({endingPath: ending})
 
@@ -117,8 +118,10 @@ class BitcoinData extends Component {
 
     return (
       <div className='bitcoin-data'>
-        <p className='coin-title' id='btc-title'>Bitcoin </p>
-        <p className='btc-ticker coin-title'>(BTC)</p>
+        <Link to="/currency/bitcoin/">
+          <p className='coin-title' id='btc-title'>Bitcoin </p>
+          <p className='btc-ticker coin-title'>(BTC)</p>
+        </Link>
         <p className='coin-title current-date'> {this.state.currentBtcData.date}</p>
 
         <hr/>
