@@ -80,6 +80,9 @@ class BitcoinData extends Component {
     this.getFirstDayPrice();
     let res = this.props.location.info;
     
+    let ending = this.props.location.pathname.split('/').reverse()[0];
+    this.setState({endingPath: ending})
+
     if(!res) {
       this.getCurrentInfo();
     } else {
