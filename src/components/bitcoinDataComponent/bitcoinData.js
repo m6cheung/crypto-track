@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import axios from 'axios';
 import moment from 'moment';
@@ -118,10 +119,8 @@ class BitcoinData extends Component {
 
     return (
       <div className='bitcoin-data'>
-        <Link to="/currency/bitcoin/">
-          <p className='coin-title' id='btc-title'>Bitcoin </p>
-          <p className='btc-ticker coin-title'>(BTC)</p>
-        </Link>
+        <p onClick={() => window.location.replace("http://localhost:3000/currency/bitcoin/charts")} className='coin-title' id='btc-title'>Bitcoin </p>
+        <p onClick={() => window.location.replace("http://localhost:3000/currency/bitcoin/charts")} className='btc-ticker coin-title'>(BTC)</p>
         <p className='coin-title current-date'> {this.state.currentBtcData.date}</p>
 
         <hr/>
@@ -152,7 +151,7 @@ class BitcoinData extends Component {
 
         <Toolbar coin={this.props.coin} />
 
-        {this.state.endingPath === 'charts'? <Line /> : <div></div>}
+        {this.state.endingPath === 'charts'? <Line update={() => {this.updatePage}}/> : <div></div>}
 
       </div>
     )

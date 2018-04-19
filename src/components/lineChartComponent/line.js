@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
+import Axis from './axis';
+import Grid from './grid';
+import axios from 'axios';
 
 class Line extends Component {
   constructor(props) {
@@ -7,23 +10,35 @@ class Line extends Component {
 
     this.state = {
       lineData: this.props.lineData,
-      width: this.props.width
+      width: this.props.width,
+      data: []
     }
   }
 
-  render() {
-    var data = [
-      {day:'02-11-2016',count:180},
-      {day:'02-12-2016',count:250},
-      {day:'02-13-2016',count:150},
-      {day:'02-14-2016',count:496},
-      {day:'02-15-2016',count:140},
-      {day:'02-16-2016',count:380},
-      {day:'02-17-2016',count:100},
-      {day:'02-18-2016',count:150}
-    ];
+  get30DayData() {
+    let data = [];
+    axios.get("https://api.coindesk.com/v1/bpi/historical/close.json")
+      .then((response) => {
+        let dataSet = response.data.bpi;
+        for(let key in dataSet) {
+          let splitDate = key.split("-");
+          let formattedDate = [splitDate[1], splitDate[2], splitDate[0]].join("-");
 
-    var margin = {top: 5, right: 50, bottom: 20, left: 50},
+          data.push( {day: formattedDate, price: dataSet[key].toFixed(2) } );
+        }
+      });
+
+    this.setState({data: data});
+  }
+
+  componentDidMount() {
+    this.get30DayData();
+  }
+
+  render() {
+    var data = this.state.data;
+
+    var margin = {top: 2, right: 50, bottom: 70, left: 50},
       w = this.state.width - (margin.left + margin.right),
       h = this.props.height - (margin.top + margin.bottom);
  
@@ -41,24 +56,46 @@ class Line extends Component {
  
     var y = d3.scaleLinear()
       .domain([0, d3.max(data, (d) => {
-        return d.count + 100;
+        return d.price + 100;
       })])
       .range([h, 0]);
  
     var line = d3.line()
       .x(d => x(d.date))
-      .y(d => y(d.count))
+      .y(d => y(d.price))
       .curve(d3.curveBasis);
  
-    var transform='translate(' + margin.left + ',' + margin.top + ')';
+    var transform = 'translate(' + margin.left + ',' + margin.top + ')';
+    console.log(transform);
+
+    var yAxis = d3.axisLeft(y)
+      .ticks(5);
+ 
+    var xAxis = d3.axisBottom(x)
+     .tickValues(data.map(function(d,i) {
+      if(i % 4 === 0) return d.date;
+     }).splice(1))
+     .ticks(4);
+     
+    var yGrid = d3.axisLeft(y)
+     .ticks(5)
+     .tickSize(-w, 0, 0)
+     .tickFormat("");
 
     return (
-      <div>
-        <svg id={this.props.lineId} width={this.state.width} height={this.props.height}>
-          <g transform={transform}>
-            <path className="line shadow" d={line(data)} strokeLinecap="round" />
-          </g>
-        </svg>
+      <div className="svg-container">
+        {data.length > 0?
+          <svg className="svg-el" height={this.props.height} width={this.state.width}>
+            <g transform={transform}>
+              <Grid h={h} grid={yGrid} gridType="y" />
+              <Axis h={h} axis={xAxis} axisType="x" />
+              <Axis h={h} axis={yAxis} axisType="y" />
+              <path className="line shadow" d={line(data)} strokeLinecap="round" />
+            </g>
+          </svg>
+            :
+          <h2>Loading Data...</h2>
+        }
       </div>
     );
   }
@@ -67,8 +104,7 @@ class Line extends Component {
 
 Line.defaultProps = {
   width: 600,
-  height: 300,
-  lineId: 'v1_line'
+  height: 400,
 }
 
 export default Line;

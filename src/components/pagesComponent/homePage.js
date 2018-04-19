@@ -41,8 +41,9 @@ class HomePage extends Component {
               return (
                 <li id={'coin-' + coin.id} key={ind}>
                   <Link to={{
-                      pathname: "/currency/" + coin.id,
-                      info: coin
+                      pathname: "/currency/" + coin.id + "/charts",
+                      info: coin,
+                      endingPath: "charts"
                     }}
                   >
                     {coin.id}
