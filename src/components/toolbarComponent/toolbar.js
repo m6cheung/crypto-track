@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-// import Chart from '../lineChartComponent/chart';
 
 class Toolbar extends Component {
   constructor(props) {

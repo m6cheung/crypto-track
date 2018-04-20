@@ -8,17 +8,29 @@ class Line extends Component {
     super(props);
 
     this.state = {
-      lineData: this.props.lineData,
       width: this.props.width,
       dataSet: this.props.dataSet
     }
   }
 
+  buildTicks(data) {
+    let ticks = [];
+    for(var i = 0; i < data.length; i++) {
+      if(i % 7 === 0) {
+        ticks.push(data[i].day);
+      }
+    }
+
+    return ticks;
+  }
+
   componentDidMount() {
+
   }
 
   render() {
     var data = this.state.dataSet;
+    var ticks = this.buildTicks(data);
 
     var margin = {top: 2, right: 50, bottom: 70, left: 50},
       w = this.state.width - (margin.left + margin.right),
@@ -31,14 +43,16 @@ class Line extends Component {
     });
 
     var x = d3.scaleTime()
-      .domain(d3.extent(data, (d) => {
+      .domain(d3.extent(data, (d,ind) => {
         return d.date;
       }))
       .rangeRound([0, w]);
  
     var y = d3.scaleLinear()
-      .domain([0, d3.max(data, (d) => {
-        return d.price + 100;
+      .domain([d3.min(data, (d) => {
+        return d.price - 2000 > 0? d.price - 2000: 0;
+      }), d3.max(data, (d) => {
+        return Number(d.price) + 2000;
       })])
       .range([h, 0]);
  
@@ -48,16 +62,18 @@ class Line extends Component {
       .curve(d3.curveBasis);
  
     var transform = 'translate(' + margin.left + ',' + margin.top + ')';
-    console.log(transform);
 
     var yAxis = d3.axisLeft(y)
       .ticks(5);
  
     var xAxis = d3.axisBottom(x)
-     .tickValues(data.map(function(d,i) {
-      if(i % 4 === 0) return d.date;
-     }).splice(1))
+      .tickFormat(function(d, i) {
+        return ticks[i]
+      })
      .ticks(4);
+     // .tickValues(data.map(function(d,i) {
+     //  if(i > 0) return d.date;
+     // }).splice(1))
      
     var yGrid = d3.axisLeft(y)
      .ticks(5)
@@ -66,18 +82,14 @@ class Line extends Component {
 
     return (
       <div className="svg-container">
-        {data.length > 0?
-          <svg className="svg-el" height={this.props.height} width={this.state.width}>
-            <g transform={transform}>
-              <Grid h={h} grid={yGrid} gridType="y" />
-              <Axis h={h} axis={xAxis} axisType="x" />
-              <Axis h={h} axis={yAxis} axisType="y" />
-              <path className="line shadow" d={line(data)} strokeLinecap="round" />
-            </g>
-          </svg>
-            :
-          <h2>Loading Data...</h2>
-        }
+        <svg className="svg-el" height={this.props.height} width={this.state.width}>
+          <g transform={transform}>
+            <Grid h={h} grid={yGrid} gridType="y" />
+            <Axis h={h} axis={xAxis} axisType="x" />
+            <Axis h={h} axis={yAxis} axisType="y" />
+            <path className="line shadow" d={line(data)} strokeLinecap="round" />
+          </g>
+        </svg>
       </div>
     );
   }
@@ -85,7 +97,7 @@ class Line extends Component {
 }
 
 Line.defaultProps = {
-  width: 600,
+  width: 900,
   height: 400,
 }
 

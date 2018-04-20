@@ -121,6 +121,7 @@ header {
 
 .toolbar-container {
   margin-left: 0.1%;
+  margin-bottom: 1em;
   display: block;
   width: 80%;
 
@@ -139,6 +140,7 @@ header {
       border: 1px solid transparent;
     }
   }
+
 }
 
 
@@ -165,6 +167,28 @@ header {
   }
 }
 
+
+// .axis{
+//     fill:#bbc7d9;
+//     opacity: 1;
+// }
+
+// .axis path,
+// .axis line {
+//     fill: none;
+//     stroke: none;
+//     shape-rendering: crispEdges;
+
+// }
+
+// .axis text {
+//     font-size: 14px;
+// }
+
+// .y-grid .tick{
+//     stroke: #4b5f87;
+//     opacity: 1;
+// }
 
 
 
