@@ -13,16 +13,16 @@ class Header extends Component {
         <nav>
           <ul>
             <li className="first-nav-item">
-              <Link to="/">Home</Link>
+              <Link to="/compare">Compare</Link>
             </li>
             <li>
-              <Link to="/portfolio">Portfolio</Link>
+              <Link to="/data">Coin-Data</Link>
             </li>
              <li>
-              <Link to="/data">Coin Data</Link>
+              <Link to="/portfolio">Portfolio</Link>
             </li>
             <li className="last-nav-item">
-              <Link to="/compare">Compare</Link>
+              <Link to="/login">Login</Link>
             </li>
           </ul>
         </nav>

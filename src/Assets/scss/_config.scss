@@ -18,6 +18,11 @@ $steelBlue: #4682B4;
   transition: $e;
 }
 
+@mixin drop-shadow($e) {
+  -webkit-filter: drop-shadow($e);
+  filter: drop-shadow($e);
+}
+
 
 body {
   font-family: 'Open Sans', sans-serif;
