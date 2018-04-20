@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import * as d3 from 'd3';
 import Axis from './axis';
 import Grid from './grid';
-import axios from 'axios';
 
 class Line extends Component {
   constructor(props) {
@@ -11,32 +10,15 @@ class Line extends Component {
     this.state = {
       lineData: this.props.lineData,
       width: this.props.width,
-      data: []
+      dataSet: this.props.dataSet
     }
   }
 
-  get30DayData() {
-    let data = [];
-    axios.get("https://api.coindesk.com/v1/bpi/historical/close.json")
-      .then((response) => {
-        let dataSet = response.data.bpi;
-        for(let key in dataSet) {
-          let splitDate = key.split("-");
-          let formattedDate = [splitDate[1], splitDate[2], splitDate[0]].join("-");
-
-          data.push( {day: formattedDate, price: dataSet[key].toFixed(2) } );
-        }
-      });
-
-    this.setState({data: data});
-  }
-
   componentDidMount() {
-    this.get30DayData();
   }
 
   render() {
-    var data = this.state.data;
+    var data = this.state.dataSet;
 
     var margin = {top: 2, right: 50, bottom: 70, left: 50},
       w = this.state.width - (margin.left + margin.right),

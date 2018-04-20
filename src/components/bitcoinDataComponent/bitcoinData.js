@@ -6,11 +6,11 @@ import 'moment-timezone';
 import { convertToCurrency } from '../../Helpers';
 import Toolbar from '../toolbarComponent/toolbar';
 import Line from '../lineChartComponent/line';
-import { Link } from 'react-router-dom';
 
 class BitcoinData extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       data: null,
       currentBtcData: {
@@ -22,32 +22,48 @@ class BitcoinData extends Component {
         price: 0,
       },
       janFirstPrice: 0,
-      endingPath: null
+      endingPath: null,
+      pastData: null
     }
+
   }
 
-  getCurrentInfo() {
+  accessExistingData(res, context) {
+    const _this = context;
+
+    let price = "$" + convertToCurrency(res.price_usd);
+    let pdt = new Date(Number(res.last_updated * 1000));
+    let pst = moment.tz(pdt, 'America/Los_Angeles').format('h:mm a');
+    let date = moment.tz(pdt, 'America/Los_Angeles').format('LL');
+    let dayChange = parseFloat(res.percent_change_24h);
+    let diff = ((Math.abs(dayChange) / 100) * convertToCurrency(res.price_usd)).toFixed(2);
+
+    _this.setState({
+      currentBtcData: {
+        intPrice: res.price_usd,
+        changePercent: dayChange,
+        percentageOfPrice: diff,
+        date: date,
+        time: pst,
+        price: price,
+      }
+    })
+  }
+
+  getCurrentInfoFromApi() {
     axios.get("https://api.coinmarketcap.com/v1/ticker/bitcoin/")
       .then((response) => {
         let res = response.data[0];
-        let price = "$" + convertToCurrency(res.price_usd);
-        let pdt = new Date(Number(res.last_updated * 1000));
-        let pst = moment.tz(pdt, 'America/Los_Angeles').format('h:mm a');
-        let date = moment.tz(pdt, 'America/Los_Angeles').format('LL');
-        let dayChange = parseFloat(res.percent_change_24h);
-        let diff = ((Math.abs(dayChange) / 100) * convertToCurrency(res.price_usd)).toFixed(2);
-    
-        this.setState({
-          currentBtcData: {
-            intPrice: res.price_usd,
-            changePercent: dayChange,
-            percentageOfPrice: diff,
-            date: date,
-            time: pst,
-            price: price,
-          }
-        })
+        this.accessExistingData(res, this);
       })
+  }
+  
+  getInfo(res) {
+    if(!res) {
+      this.getCurrentInfoFromApi();
+    } else {
+      this.accessExistingData(res, this);
+    }
   }
 
   getFirstDayPrice() {
@@ -56,7 +72,23 @@ class BitcoinData extends Component {
         //closing price of btc on Jan 1st, 2018
         let res = response.data.bpi['2018-01-01']
         this.setState({ janFirstPrice: res })
-      })
+      });
+  }
+
+  get30DayData(endingPath) {
+    let dataHistorical = [];
+    axios.get("https://api.coindesk.com/v1/bpi/historical/close.json")
+      .then(response => {
+        let dataSet = response.data.bpi;
+        for(let key in dataSet) {
+
+          let splitDate = key.split("-");
+          let formattedDate = [splitDate[1], splitDate[2], splitDate[0]].join("-");
+          dataHistorical.push( {day: formattedDate, price: dataSet[key].toFixed(2) } );
+          
+        }
+        this.setState({ pastData: dataHistorical });
+      });
   }
 
   setSignAndColor(percentage) {
@@ -76,36 +108,17 @@ class BitcoinData extends Component {
     }
   }
 
-  // getCurrentInfoOnRefresh() {} -- abstraction wip
-
   componentDidMount() {
     this.getFirstDayPrice();
     let res = this.props.location.info;
+    this.getInfo(res);
 
     let ending = this.props.location.pathname.split('/').reverse()[0];
-    this.setState({endingPath: ending})
-
-    if(!res) {
-      this.getCurrentInfo();
-    } else {
-      let price = "$" + convertToCurrency(res.price_usd);
-      let pdt = new Date(Number(res.last_updated * 1000));
-      let pst = moment.tz(pdt, 'America/Los_Angeles').format('h:mm a');
-      let date = moment.tz(pdt, 'America/Los_Angeles').format('LL');
-      let dayChange = parseFloat(res.percent_change_24h);
-      let diff = ((Math.abs(dayChange) / 100) * convertToCurrency(res.price_usd)).toFixed(2);
-
-      this.setState({
-        currentBtcData: {
-          intPrice: res.price_usd,
-          changePercent: dayChange,
-          percentageOfPrice: diff,
-          date: date,
-          time: pst,
-          price: price,
-        }
-      })
+    if(ending === 'charts') {
+      this.get30DayData();
     }
+
+    this.setState({endingPath: ending})
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -151,7 +164,7 @@ class BitcoinData extends Component {
 
         <Toolbar coin={this.props.coin} />
 
-        {this.state.endingPath === 'charts'? <Line update={() => {this.updatePage}}/> : <div></div>}
+        {this.state.pastData && this.state.endingPath === 'charts'? <Line dataSet={this.state.pastData}/> : <div></div>}
 
       </div>
     )
