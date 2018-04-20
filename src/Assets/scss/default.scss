@@ -163,32 +163,34 @@ header {
   .line {
     fill: none;
     stroke: steelblue;
-    stroke-width: 1.5px;
+    stroke-width: 2px;
   }
 }
 
 
-// .axis{
-//     fill:#bbc7d9;
-//     opacity: 1;
-// }
+.axis{
+    fill:#bbc7d9;
+    opacity: 1;
+}
 
-// .axis path,
-// .axis line {
-//     fill: none;
-//     stroke: none;
-//     shape-rendering: crispEdges;
+.axis path,
+.axis line {
+  fill: none;
+  stroke: none;
+  shape-rendering: crispEdges;
 
-// }
+}
 
-// .axis text {
-//     font-size: 14px;
-// }
+.axis text {
+  font-size: 14px;
+}
 
-// .y-grid .tick{
-//     stroke: #4b5f87;
-//     opacity: 1;
-// }
+.y-grid .tick{
+  stroke: #4b5f87;
+  opacity: 0.5;
+}
+
+
 
 
 
