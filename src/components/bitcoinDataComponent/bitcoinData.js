@@ -12,7 +12,6 @@ class BitcoinData extends Component {
     super(props);
 
     this.state = {
-      data: null,
       currentBtcData: {
         intPrice: 0,
         changePercent: 0,
@@ -132,8 +131,8 @@ class BitcoinData extends Component {
 
     return (
       <div className='bitcoin-data'>
-        <p onClick={() => window.location.replace("http://localhost:3000/currency/bitcoin/charts")} className='coin-title' id='btc-title'>Bitcoin </p>
-        <p onClick={() => window.location.replace("http://localhost:3000/currency/bitcoin/charts")} className='btc-ticker coin-title'>(BTC)</p>
+        <p onClick={() => window.location.replace(`/currency/bitcoin/charts`)} className='coin-title' id='btc-title'>Bitcoin </p>
+        <p onClick={() => window.location.replace(`/currency/bitcoin/charts`)} className='btc-ticker coin-title'>(BTC)</p>
         <p className='coin-title current-date'> {this.state.currentBtcData.date}</p>
 
         <hr/>

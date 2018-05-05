@@ -38,18 +38,33 @@ class HomePage extends Component {
             :
           <ul>
             {this.state.currencies.map((coin, ind) => {
-              return (
-                <li id={'coin-' + coin.id} key={ind}>
-                  <Link to={{
-                      pathname: "/currency/" + coin.id + "/charts",
-                      info: coin,
-                      endingPath: "charts"
-                    }}
-                  >
-                    {coin.id}
-                  </Link>
-                </li>
-              )
+              if(coin.id !== 'bitcoin') {
+                return (
+                  <li id={'coin-' + coin.id} key={ind}>
+                    <Link to={{
+                        pathname: "/alt/" + coin.id,
+                        info: coin,
+                        endingPath: "charts"
+                      }}
+                    >
+                      {coin.id}
+                    </Link>
+                  </li>
+                ) 
+              } else {
+                return (
+                  <li id={'coin-' + coin.id} key={ind}>
+                    <Link to={{
+                        pathname: "/currency/" + coin.id + "/charts",
+                        info: coin,
+                        endingPath: "charts"
+                      }}
+                    >
+                      {coin.id}
+                    </Link>
+                  </li>
+                )
+              }
             })}
           </ul>
         }

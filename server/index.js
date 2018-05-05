@@ -18,7 +18,8 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(express.static(path.join(__dirname, '../build')));
+// app.use(express.static(path.join(__dirname, '../build')));
+
 app.use('/', router);
 
 const server = app.listen(config.port);

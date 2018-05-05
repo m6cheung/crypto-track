@@ -51,20 +51,20 @@ header {
   }
 }
 
-.btc-ticker, #btc-title {
+.btc-ticker, #btc-title, .alt-ticker, #alt-title {
   cursor: pointer;
 }
 
-.bitcoin-data {
+.bitcoin-data, .alt-data {
   margin-left: 5%;
   margin-right: 5%;
 
-  #btc-title {
+  #btc-title, #alt-title {
     color: #FF9900;
     font-size: 30px;
   }
 
-  .btc-ticker {
+  .btc-ticker, .alt-ticker {
     color: #FF9900;
   }
 
@@ -93,7 +93,7 @@ header {
       }
     }
 
-    .btc-info {
+    .btc-info, .alt-info {
       margin-top: -1em;
       font-size: 11px;
       font-style: italic;
@@ -145,20 +145,6 @@ header {
 
 
 .svg-container {
-  // position: relative;
-  // height: 0; 
-  // width: 100%;
-  // padding: 0;
-  // padding-bottom: 100%;
-
-  // .svg-el {
-  //   position: absolute;
-  //   display: block;
-  //   height: 95%; 
-  //   width: 100%; 
-  //   left: 0; 
-  //   top: 0;
-  // }
 
   .line {
     fill: none;
