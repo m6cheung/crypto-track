@@ -1,12 +1,12 @@
 const router = require('express').Router();
 
-router.get('/login', (req, res) => {
+router.get('/api/login', (req, res) => {
 
-  return {
+  res.send({
     data:[
       {user: "m6cheung", password: "123"}
     ]
-  };
+  });
 
 })
 

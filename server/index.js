@@ -1,8 +1,8 @@
 const express = require('express'),  
       logger = require('morgan'),
-      config = require('./config/'),
+      config = require('./config'),
       path = require('path'),
-      router = require('router');
+      router = require('./router');
 
 
 app = express();
