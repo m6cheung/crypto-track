@@ -59,13 +59,22 @@ header {
   margin-left: 5%;
   margin-right: 5%;
 
-  #btc-title, #alt-title {
+  #btc-title {
     color: #FF9900;
     font-size: 30px;
   }
 
-  .btc-ticker, .alt-ticker {
+  #alt-title {
+    color: $steelblue;
+    font-size: 30px; 
+  }
+
+  .btc-ticker {
     color: #FF9900;
+  }
+
+  .alt-ticker {
+    color: $steelblue;
   }
 
   .coin-title {
@@ -148,7 +157,7 @@ header {
 
   .line {
     fill: none;
-    stroke: steelblue;
+    stroke: $steelblue;
     stroke-width: 2px;
   }
 }

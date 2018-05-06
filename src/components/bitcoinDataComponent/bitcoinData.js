@@ -74,7 +74,7 @@ class BitcoinData extends Component {
       });
   }
 
-  get30DayData(endingPath) {
+  get30DayData = (endingPath) => {
     let dataHistorical = [];
     axios.get("https://api.coindesk.com/v1/bpi/historical/close.json")
       .then(response => {
@@ -116,15 +116,19 @@ class BitcoinData extends Component {
     if(ending === 'charts') {
       this.get30DayData();
     }
-
     this.setState({endingPath: ending})
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    return nextProps.location.endingPath != null? {endingPath: nextProps.location.endingPath} : {endingPath: ''};
+    return nextProps.location.endingPath != null? {endingPath: nextProps.location.endingPath} : null;
   }
 
   render() {
+    const ending = this.props.location.pathname.split('/').reverse()[0];
+    if(ending === 'charts') {
+      this.get30DayData();
+    }
+
     let changeStatus = this.setSignAndColor(this.state.currentBtcData.changePercent);
     let ytd = (((this.state.currentBtcData.intPrice - this.state.janFirstPrice) / this.state.janFirstPrice) * 100).toFixed(2);
     let ytdChangeStatus = this.setSignAndColor(ytd);

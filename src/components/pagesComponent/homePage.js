@@ -24,19 +24,17 @@ class HomePage extends Component {
   }
 
   render() {
+    console.log(this.state.currencies)
     return (
       <div>
-        <h2>Cryptocurrency Data and Tools</h2>
-
-        <p>
-          Crypto-Track offers information for all
-          your cryptocurrency needs.
-        </p>
+        <h3 style={{'textAlign': 'center'}}>
+          Top Cryptocurrencies by Market Cap
+        </h3>
 
         {this.state.loading?
           <div style={{'textAlign': 'center'}}> Loading Data. Please Wait... </div>
             :
-          <ul>
+          <ol>
             {this.state.currencies.map((coin, ind) => {
               if(coin.id !== 'bitcoin') {
                 return (
@@ -47,7 +45,7 @@ class HomePage extends Component {
                         endingPath: "charts"
                       }}
                     >
-                      {coin.id}
+                      {coin.name}
                     </Link>
                   </li>
                 ) 
@@ -60,13 +58,13 @@ class HomePage extends Component {
                         endingPath: "charts"
                       }}
                     >
-                      {coin.id}
+                      {coin.name}
                     </Link>
                   </li>
                 )
               }
             })}
-          </ul>
+          </ol>
         }
       </div>
     );

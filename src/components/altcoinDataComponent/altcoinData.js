@@ -19,8 +19,8 @@ class AltcoinData extends Component {
       },
       endingPath: null,
       coinPath: props.location.pathname.split('/')[2],
-      name: props.location.info.name,
-      symbol: props.location.info.symbol
+      name: null,
+      symbol: null
     }
   }
 
@@ -33,7 +33,12 @@ class AltcoinData extends Component {
     let pst = moment.tz(pdt, 'America/Los_Angeles').format('h:mm a');
     let date = moment.tz(pdt, 'America/Los_Angeles').format('LL');
     let dayChange = parseFloat(res.percent_change_24h);
-    let diff = ((Math.abs(dayChange) / 100) * convertToCurrency(res.price_usd)).toFixed(2);
+    let diff = ((Math.abs(dayChange) / 100) * convertToCurrency(res.price_usd));
+    if(diff > 0.1) {
+      diff = diff.toFixed(2);
+    } else {
+      diff = diff.toFixed(5);
+    }
 
     _this.setState({
       currentData: {
@@ -43,7 +48,9 @@ class AltcoinData extends Component {
         date: date,
         time: pst,
         price: currentPrice,
-      }
+      },
+      name: res.name,
+      symbol: res.symbol
     })
   }
 
@@ -93,13 +100,12 @@ class AltcoinData extends Component {
   }
 
   render() {
-    console.log(this.props);
     const { coinPath, symbol, name } = this.state 
     const changeStatus = this.setSignAndColor(this.state.currentData.changePercent);
     return (
-      <div className="altcoin-data">
-        <p onClick={() => window.location.replace(`/currency/${coinPath}`)} className='coin-title' id='alt-title'>{`${name}`}</p>
-        <p onClick={() => window.location.replace(`/currency/${coinPath}`)} className='alt-ticker coin-title'>{`(${symbol})`}</p>
+      <div className="alt-data">
+        <p onClick={() => window.location.replace(`/alt/${coinPath}`)} className='coin-title' id='alt-title'>{`${name} `}</p>
+        <p onClick={() => window.location.replace(`/alt/${coinPath}`)} className='alt-ticker coin-title'>{`(${symbol})`}</p>
         <p className='coin-title current-date'> {this.state.currentData.date}</p>
 
         <hr/>

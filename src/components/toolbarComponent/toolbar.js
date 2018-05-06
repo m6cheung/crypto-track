@@ -26,11 +26,17 @@ class Toolbar extends Component {
           </li>
 
           <li> 
-            <Link to={ `/currency/${this.state.coin.toLowerCase()}/historical` }> Historical </Link> 
+            <Link to={{
+              pathname: `/currency/${this.state.coin.toLowerCase()}/historical`,
+              endingPath: "historical"
+            }}> Historical </Link> 
           </li>
 
           <li className='last-tab'> 
-            <Link to={ `/currency/${this.state.coin.toLowerCase()}/news` }> News </Link> 
+            <Link to={{
+              pathname: `/currency/${this.state.coin.toLowerCase()}/news`,
+              endingPath: 'news'
+            }}> News </Link> 
           </li> 
         </ul>
       </div>
