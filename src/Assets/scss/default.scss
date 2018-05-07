@@ -51,11 +51,11 @@ header {
   }
 }
 
-.btc-ticker, #btc-title {
+.btc-ticker, #btc-title, .alt-ticker, #alt-title {
   cursor: pointer;
 }
 
-.bitcoin-data {
+.bitcoin-data, .alt-data {
   margin-left: 5%;
   margin-right: 5%;
 
@@ -64,8 +64,17 @@ header {
     font-size: 30px;
   }
 
+  #alt-title {
+    color: $steelblue;
+    font-size: 30px; 
+  }
+
   .btc-ticker {
     color: #FF9900;
+  }
+
+  .alt-ticker {
+    color: $steelblue;
   }
 
   .coin-title {
@@ -93,7 +102,7 @@ header {
       }
     }
 
-    .btc-info {
+    .btc-info, .alt-info {
       margin-top: -1em;
       font-size: 11px;
       font-style: italic;
@@ -145,50 +154,38 @@ header {
 
 
 .svg-container {
-  // position: relative;
-  // height: 0; 
-  // width: 100%;
-  // padding: 0;
-  // padding-bottom: 100%;
-
-  // .svg-el {
-  //   position: absolute;
-  //   display: block;
-  //   height: 95%; 
-  //   width: 100%; 
-  //   left: 0; 
-  //   top: 0;
-  // }
 
   .line {
     fill: none;
-    stroke: steelblue;
-    stroke-width: 1.5px;
+    stroke: $steelblue;
+    stroke-width: 2px;
   }
 }
 
 
-// .axis{
-//     fill:#bbc7d9;
-//     opacity: 1;
-// }
+.axis{
+    fill:#bbc7d9;
+    opacity: 1;
+}
 
-// .axis path,
-// .axis line {
-//     fill: none;
-//     stroke: none;
-//     shape-rendering: crispEdges;
+.axis path,
+.axis line {
+  fill: none;
+  stroke: none;
+  shape-rendering: crispEdges;
 
-// }
+}
 
-// .axis text {
-//     font-size: 14px;
-// }
+.axis text {
+  font-size: 14px;
+}
 
-// .y-grid .tick{
-//     stroke: #4b5f87;
-//     opacity: 1;
-// }
+.y-grid .tick{
+  stroke: #4b5f87;
+  opacity: 0.5;
+}
+
+
 
 
 

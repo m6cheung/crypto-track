@@ -12,7 +12,8 @@ import HomePage from'./components/pagesComponent/homePage';
 import ComparePage from './components/pagesComponent/comparePage';
 import PortfolioPage from './components/pagesComponent/portfolioPage';
 import CoinDataPage from'./components/pagesComponent/coinDataPage';
-import BitcoinData from './components/bitcoinDataComponent/bitcoinData'
+import BitcoinData from './components/bitcoinDataComponent/bitcoinData';
+import AltcoinData from './components/altcoinDataComponent/altcoinData';
 
 
 //includes
@@ -30,6 +31,7 @@ class App extends Component {
           <Route exact path='/portfolio' component={PortfolioPage} />
           <Route exact path='/data' component={CoinDataPage} />
           <Route path='/currency/bitcoin' component={BitcoinData} />
+          <Route path='/alt/:altcoin' component={AltcoinData} />
 
           <Footer />
         </div>
