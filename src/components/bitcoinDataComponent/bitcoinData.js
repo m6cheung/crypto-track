@@ -165,7 +165,7 @@ class BitcoinData extends Component {
 
         </div>
 
-        <Toolbar coin={this.props.coin} />
+        <Toolbar coin={this.props.coin} type="currency" />
 
         {this.state.pastData && this.state.endingPath === 'charts'? <Line dataSet={this.state.pastData}/> : <div></div>}
 

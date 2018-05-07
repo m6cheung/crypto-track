@@ -3,6 +3,7 @@ import axios from 'axios';
 import moment from 'moment';
 import 'moment-timezone';
 import { convertToCurrency } from '../../Helpers';
+import Toolbar from '../toolbarComponent/toolbar';
 
 class AltcoinData extends Component {
   constructor(props) {
@@ -127,6 +128,9 @@ class AltcoinData extends Component {
             <p className="alt-info">Today's Change</p>
           </div>
         </div>
+
+        <Toolbar coin={this.state.coinPath} type="alt" />
+
       </div>
     )
   }

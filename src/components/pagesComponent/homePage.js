@@ -21,6 +21,7 @@ class HomePage extends Component {
           loading: false
         })
       })
+      
   }
 
   render() {
