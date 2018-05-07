@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class PortfolioPage extends Component {
+class WatchListPage extends Component {
   render() {
     return (
       <div>
@@ -12,4 +12,4 @@ class PortfolioPage extends Component {
   }
 }
 
-export default PortfolioPage;
+export default WatchListPage;

@@ -16,10 +16,10 @@ class Header extends Component {
               <Link to="/compare">Compare</Link>
             </li>
             <li>
-              <Link to="/data">Coin-Data</Link>
+              <Link to="/watch">Watch-List</Link>
             </li>
              <li>
-              <Link to="/portfolio">Portfolio</Link>
+              <Link to="/register">Register</Link>
             </li>
             <li className="last-nav-item">
               <Link to="/login">Login</Link>
