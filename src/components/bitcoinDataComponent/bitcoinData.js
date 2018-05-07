@@ -12,7 +12,6 @@ class BitcoinData extends Component {
     super(props);
 
     this.state = {
-      data: null,
       currentBtcData: {
         intPrice: 0,
         changePercent: 0,
@@ -75,7 +74,7 @@ class BitcoinData extends Component {
       });
   }
 
-  get30DayData(endingPath) {
+  get30DayData = (endingPath) => {
     let dataHistorical = [];
     axios.get("https://api.coindesk.com/v1/bpi/historical/close.json")
       .then(response => {
@@ -117,23 +116,27 @@ class BitcoinData extends Component {
     if(ending === 'charts') {
       this.get30DayData();
     }
-
     this.setState({endingPath: ending})
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    return nextProps.location.endingPath != null? {endingPath: nextProps.location.endingPath} : {endingPath: ''};
+    return nextProps.location.endingPath != null? {endingPath: nextProps.location.endingPath} : null;
   }
 
   render() {
+    const ending = this.props.location.pathname.split('/').reverse()[0];
+    if(ending === 'charts') {
+      this.get30DayData();
+    }
+
     let changeStatus = this.setSignAndColor(this.state.currentBtcData.changePercent);
     let ytd = (((this.state.currentBtcData.intPrice - this.state.janFirstPrice) / this.state.janFirstPrice) * 100).toFixed(2);
     let ytdChangeStatus = this.setSignAndColor(ytd);
 
     return (
       <div className='bitcoin-data'>
-        <p onClick={() => window.location.replace("http://localhost:3000/currency/bitcoin/charts")} className='coin-title' id='btc-title'>Bitcoin </p>
-        <p onClick={() => window.location.replace("http://localhost:3000/currency/bitcoin/charts")} className='btc-ticker coin-title'>(BTC)</p>
+        <p onClick={() => window.location.replace(`/currency/bitcoin/charts`)} className='coin-title' id='btc-title'>Bitcoin </p>
+        <p onClick={() => window.location.replace(`/currency/bitcoin/charts`)} className='btc-ticker coin-title'>(BTC)</p>
         <p className='coin-title current-date'> {this.state.currentBtcData.date}</p>
 
         <hr/>
@@ -162,7 +165,7 @@ class BitcoinData extends Component {
 
         </div>
 
-        <Toolbar coin={this.props.coin} />
+        <Toolbar coin={this.props.coin} type="currency" />
 
         {this.state.pastData && this.state.endingPath === 'charts'? <Line dataSet={this.state.pastData}/> : <div></div>}
 

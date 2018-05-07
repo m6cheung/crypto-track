@@ -21,37 +21,51 @@ class HomePage extends Component {
           loading: false
         })
       })
+      
   }
 
   render() {
+    console.log(this.state.currencies)
     return (
       <div>
-        <h2>Cryptocurrency Data and Tools</h2>
-
-        <p>
-          Crypto-Track offers information for all
-          your cryptocurrency needs.
-        </p>
+        <h3 style={{'textAlign': 'center'}}>
+          Top Cryptocurrencies by Market Cap
+        </h3>
 
         {this.state.loading?
           <div style={{'textAlign': 'center'}}> Loading Data. Please Wait... </div>
             :
-          <ul>
+          <ol>
             {this.state.currencies.map((coin, ind) => {
-              return (
-                <li id={'coin-' + coin.id} key={ind}>
-                  <Link to={{
-                      pathname: "/currency/" + coin.id + "/charts",
-                      info: coin,
-                      endingPath: "charts"
-                    }}
-                  >
-                    {coin.id}
-                  </Link>
-                </li>
-              )
+              if(coin.id !== 'bitcoin') {
+                return (
+                  <li id={'coin-' + coin.id} key={ind}>
+                    <Link to={{
+                        pathname: "/alt/" + coin.id,
+                        info: coin,
+                        endingPath: "charts"
+                      }}
+                    >
+                      {coin.name}
+                    </Link>
+                  </li>
+                ) 
+              } else {
+                return (
+                  <li id={'coin-' + coin.id} key={ind}>
+                    <Link to={{
+                        pathname: "/currency/" + coin.id + "/charts",
+                        info: coin,
+                        endingPath: "charts"
+                      }}
+                    >
+                      {coin.name}
+                    </Link>
+                  </li>
+                )
+              }
             })}
-          </ul>
+          </ol>
         }
       </div>
     );

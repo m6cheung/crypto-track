@@ -52,7 +52,7 @@ class Line extends Component {
       .domain([d3.min(data, (d) => {
         return d.price - 2000 > 0? d.price - 2000: 0;
       }), d3.max(data, (d) => {
-        return Number(d.price) + 2000;
+        return Number(d.price) + 1000;
       })])
       .range([h, 0]);
  
